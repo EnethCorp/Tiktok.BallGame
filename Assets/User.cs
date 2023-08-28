@@ -11,16 +11,16 @@ public class User : MonoBehaviour
         this.Points = _Points;
     }
 
-
     [Header("REFERENCES")]
     [SerializeField] public string Username;
     [SerializeField] public int Points;
 
     public void SpawnPlayer(GameObject PlayerPrefab, Transform PlayerSpawner)
     {
-        Vector3 randomOffset = new Vector3(Random.Range(-2.35f, 2.35f), 0f, 0f);
+        Vector3 randomOffset = new Vector3(Random.Range(-2.35f, 2.35f), Random.Range(0f, 2f), 0f);
         PlayerController playerChild = Instantiate(PlayerPrefab, PlayerSpawner.position + randomOffset, PlayerSpawner.rotation).GetComponent<PlayerController>();
         playerChild.parent = this;
+        playerChild.SetMaterial();
     }
     public void AddPoints(int amount)
     {

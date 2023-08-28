@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -13,34 +16,54 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject UserPrefab;
     [SerializeField] private List<User> UserList = new List<User>();
 
-    [Header("DEBUG")]
-    [SerializeField] private float SpawnTimer = TIMER_PRESET;
-    private const float TIMER_PRESET = 2f;
+    [Header("LEADERBOARD")]
+    [SerializeField] private TextMeshProUGUI[] LeaderBoardNames = new TextMeshProUGUI[3];
+    [SerializeField] private TextMeshProUGUI[] LeaderBoardPoints = new TextMeshProUGUI[3];
 
-    void Start()
+    [Header("DEBUG")]
+    [SerializeField] private int TotalPlayersSpawned = 0;
+    [SerializeField] private string[] testUsers = new String[3];
+
+    public static PlayerManager Instance;
+
+    private void Awake()
     {
-        this.CreatePlayer("dragojak");
+        if (Instance)
+        {
+            Debug.LogError("More than one PlayerManager in Scene.");
+        }
+        Instance = this;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
-            SpawnPlayer("TESTNAME");
+            SpawnPlayer(testUsers[Random.Range(0, testUsers.Length)]);
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
+            QuickSort(UserList, 0, UserList.Count - 1);
             PrintList();
-        }
-
-        SpawnTimer -= Time.deltaTime;
-
-        if (SpawnTimer <= 0)
-        {
-            SpawnPlayer("TESTNAME");
-            SpawnTimer = TIMER_PRESET;
+            UpdateLeaderBoard();
         }
     }
+
+    public void UpdateLeaderBoard()
+    {
+        QuickSort(UserList, 0, UserList.Count - 1);
+
+        for (int i = 0; i < LeaderBoardNames.Length; i++)
+        {
+            LeaderBoardNames[i].text = UserList[i].Username;
+        }
+        for (int i = 0; i < LeaderBoardPoints.Length; i++)
+        {
+            LeaderBoardPoints[i].text = UserList[i].Points.ToString();
+        }
+    }
+
+
     void SpawnPlayer(string _Username)
     {
         User user = null;
@@ -54,6 +77,7 @@ public class PlayerManager : MonoBehaviour
             user = GetPlayer(_Username);
         }
 
+        TotalPlayersSpawned++;
         user.SpawnPlayer(PlayerPrefab, PlayerSpawner);
     }
 
@@ -102,6 +126,39 @@ public class PlayerManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public static void QuickSort(List<User> list, int start, int end)
+    {
+        if (end <= start) return; // base case
+
+        int pivot = Partition(list, start, end);
+        QuickSort(list, start, pivot - 1);
+        QuickSort(list, pivot + 1, end);
+    }
+    private static int Partition(List<User> list, int start, int end)
+    {
+        User temp = null;
+        int pivot = list.Count - 1;
+        int i = start - 1;
+
+        for (int j = start; j < end; j++)
+        {
+            if (list[j].Points > list[pivot].Points)
+            {
+                i++;
+                temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
+        }
+
+        i++;
+        temp = list[i];
+        list[i] = list[end];
+        list[end] = temp;
+
+        return i;
     }
 }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class CubeController : MonoBehaviour
 {
     [SerializeField, Range(0f, 50f)] private int Points;
+    [SerializeField] private float totalCollisions;
+
 
     public bool inAnimation = false;
     private int coroutinesNumber = 0;
@@ -20,12 +23,23 @@ public class CubeController : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
-            PlayerController playerController = collision.transform.GetComponent<PlayerController>();
-            playerController.AddPoints(this.Points);
+            totalCollisions++;
+            try
+            {
+                PlayerController playerController = collision.transform.GetComponent<PlayerController>();
+                playerController.AddPoints(this.Points);
 
-            StartCoroutine(CubeAnimation());
-
-            Destroy(collision.gameObject);
+                StartCoroutine(CubeAnimation());
+            }
+            catch (Exception e) 
+            {
+                Debug.LogWarning("Catched Exception" + e);
+            }
+            finally
+            {
+                PlayerManager.Instance.UpdateLeaderBoard();
+                Destroy(collision.gameObject);
+            }
         }
     }
 
