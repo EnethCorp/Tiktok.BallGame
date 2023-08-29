@@ -8,7 +8,7 @@ public class CubeController : MonoBehaviour
 {
     [SerializeField, Range(0f, 50f)] private int Points;
     [SerializeField] private float totalCollisions;
-
+    [SerializeField] private bool multiply;
 
     public bool inAnimation = false;
     private int coroutinesNumber = 0;
@@ -27,7 +27,11 @@ public class CubeController : MonoBehaviour
             try
             {
                 PlayerController playerController = collision.transform.GetComponent<PlayerController>();
-                playerController.AddPoints(this.Points);
+
+                if (multiply)
+                    playerController.AddPoints(playerController.parent.Points * this.Points);
+                else
+                    playerController.AddPoints(this.Points);
 
                 StartCoroutine(CubeAnimation());
             }
@@ -37,7 +41,7 @@ public class CubeController : MonoBehaviour
             }
             finally
             {
-                PlayerManager.Instance.UpdateLeaderBoard();
+                GameManager.Instance.UpdateLeaderBoard();
                 Destroy(collision.gameObject);
             }
         }
