@@ -21,6 +21,14 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector3(Random.Range(-0.5f, 0.5f), 0f, 0f);
         }
     }
+    void Update()
+    {
+        if (!this.parent)
+        {
+            Destroy(gameObject);
+        }   
+    }
+
     public void AddPoints(int amount)
     {
         parent.AddPoints(amount);
@@ -32,22 +40,6 @@ public class PlayerController : MonoBehaviour
         Texture texture = _MaterialCreator.CreateTexture(this.parent.Username);
         renderer.material.mainTexture = texture;
 
-        //Texture2D texture = null;
-        //Debug.Log(this.parent.Username);
-        //TextAsset imageAsset = Resources.Load<TextAsset>(this.parent.Username);
-        //Debug.Log(imageAsset);
-        //ImageConversion.LoadImage(texture, imageAsset.bytes);
-        //GetComponent<Renderer>().material.mainTexture = texture;
-
-        //Debug.Log("Texture is " + texture);
-        //Debug.Log("Running Coroutine for " + parent.Username);
-        //Debug.Log("Able to convert: " + ImageConversion.LoadImage(texture, imageAsset.bytes));
-
         yield return null;
-        //if (texture == null)
-        //{
-        //    StartCoroutine(this.SetMaterial());
-        //    Debug.Log("Running Coroutine for " + parent.Username);
-        //}
     }
 }

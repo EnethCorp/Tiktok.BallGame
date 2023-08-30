@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -16,31 +17,29 @@ public class User : MonoBehaviour
     [SerializeField] public int Points;
     [SerializeField] public float lastSpawnedTime;
 
+    private int textureAttempt;
+    private void Update()
+    {
+        lastSpawnedTime += Time.deltaTime;
+    }
     public IEnumerator SpawnPlayer(GameObject PlayerPrefab, Transform PlayerSpawner)
     {
         Texture texture = MaterialCreator.Instance.CreateTexture(this.Username);
         if (texture == null)
         {
-            Debug.Log("Trying to find texture");
-            yield return new WaitForSeconds(0.5f);
+            //AssetDatabase.Refresh();
+            Debug.Log("Trying to find texture, " + textureAttempt);
+            textureAttempt++;
+            yield return new WaitForSeconds(1f);
             StartCoroutine(SpawnPlayer(PlayerPrefab, PlayerSpawner));
             yield break;
         }
 
-        //Texture2D texture = Resources.Load<Texture2D>(this.Username);
-        //Debug.Log("Texture: " + texture + ", Username: " + this.Username);
-        //while (texture == null)
-        //{
-        //    texture = Resources.Load<Texture2D>(this.Username);
-        //    yield return new WaitForSeconds(0.05f);
-        //}
-        lastSpawnedTime = Time.time;
+        lastSpawnedTime = 0f;
         Vector3 randomOffset = new Vector3(Random.Range(-3.35f, 3.35f), Random.Range(0f, 2f), 0f);
         PlayerController playerChild = Instantiate(PlayerPrefab, PlayerSpawner.position + randomOffset, PlayerSpawner.rotation).GetComponent<PlayerController>();
         playerChild.parent = this;
-        //playerChild.SetMaterial();
         StartCoroutine(playerChild.SetMaterial());
-        //StartCoroutine(playerChild.SetImage());
     }
     public void AddPoints(int amount)
     {
@@ -48,6 +47,6 @@ public class User : MonoBehaviour
     }
     public void RemoveUser()
     {
-        Destroy(gameObject);
+        DestroyImmediate(gameObject);
     }
 }

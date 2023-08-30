@@ -17,10 +17,12 @@ public class MaterialCreator : MonoBehaviour
         }
         Instance = this;
     }
-    public Texture CreateTexture(string _Username)
+    public Texture2D CreateTexture(string _Username)
     {
         try
         {
+            string folderPath = Application.streamingAssetsPath + "/" + _Username + ".png";
+            Debug.Log(folderPath);
             Texture2D texture = Resources.Load<Texture2D>(_Username);
             return texture;
         }

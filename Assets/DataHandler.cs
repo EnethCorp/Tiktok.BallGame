@@ -16,6 +16,7 @@ public class DataHandler : MonoBehaviour
     [Header("DATA")]
     [SerializeField] private int MininumLikes = 25;
 
+    public bool testing = false;
     public bool connected = false;
     bool success = false;
     Dictionary<string, string> data;
@@ -52,9 +53,9 @@ public class DataHandler : MonoBehaviour
             connected = true;
         }
 
-        yield return new WaitForSeconds(1f);
         if (!connected)
         {
+            yield return new WaitForSeconds(5f);
             Debug.Log("Retrying to connect");
             StartCoroutine(setupSocket());
             Instance = this;
@@ -67,10 +68,16 @@ public class DataHandler : MonoBehaviour
         {
             Debug.LogError("More than one DataHandler in Scene.");
         }
+        if (testing)
+        {
+            Debug.LogWarning("Testing in TikTokApi is activated.");
+        }
         Instance = this;
         gameManager = GameManager.Instance;
         gameManager.SetMinimumLikes(MininumLikes);
-        StartCoroutine(setupSocket());
+
+        if (!testing)
+            StartCoroutine(setupSocket());
     }
 
     public static Dictionary<string, string> ParseData(string dataString)
@@ -170,7 +177,10 @@ public class DataHandler : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Debug.Log("Closing socket");
-        socket.Disconnect(reuseSocket:false);   
+        if (connected)
+        {
+            Debug.Log("Closing socket");
+            socket.Disconnect(reuseSocket:false);   
+        }
     }
 }

@@ -10,7 +10,6 @@ page = None
 
 async def init():
 
-
   global browser
   global page
   playwright = await async_playwright().start()
@@ -29,7 +28,6 @@ async def downloadProfilePicture(url: str, username: str):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             imgData = await response.read()    
-    
     cwd = os.getcwd()
     parent_directory = os.path.dirname(cwd)
     print(parent_directory)

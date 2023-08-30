@@ -11,7 +11,7 @@ import sys
 pfpDownloadingQueue = []
 pfpDownloaded = []
 pfpDownloadFinished = []
-streamerName = "ayhiefachcrie"
+streamerName = "__domix__" # goofee_69 # reddit_officially # meastkill # __domix__
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
@@ -36,10 +36,10 @@ async def downloadWrapper(username: str, url: str):
             while(downloading):
                 if pfpDownloadingQueue[0] == username:
 
-                    await (asyncTikTokScraper.downloadProfilePicture(url, username))
-                    pfpDownloadFinished.append(username)
+                    await (asyncTikTokScraper.downloadProfilePicture(url, username))                   
                     downloading = False
                     pfpDownloadingQueue.pop(0)
+                    pfpDownloadFinished.append(username)
                     
                 else:
 
@@ -55,26 +55,28 @@ async def getViewerCount():
         lastInteractionDifference = time.monotonic() - lastInteractionTime
         print(lastInteractionDifference)
 
-        if lastInteractionDifference > 180:
-            print("last interaction was more than 3 minutes ago...\nRestarting script in 60 seconds")
+        if lastInteractionDifference > 60*30 and client.connected:
+            print("last interaction was more than 3 seconds ago...\nRestarting script in 60 seconds")
             client.stop()
-            print("Restarted script")
-            time.sleep(30)
-            await client.start()
+            print("stopped client")
+            # print("Restarted script")
+            # await asyncio.sleep(60)
+            # await client.start()
         else:
-            await asyncio.sleep(180)
+            await asyncio.sleep(30)
 
 @client.on("viewer_update")
 async def on_connect(event: ViewerUpdateEvent):
+   # print("stream has so many viewers: ", connectObject)
     global lastInteractionTime
     lastInteractionTime = time.monotonic()
 
 
 @client.on("disconnect")
 async def on_disconnect(event: DisconnectEvent):
-    print("Disconnected, reconnecting in 1minute")
+    print("Disconnected, reconnecting in 2 minutes")
     await asyncio.sleep(120)
-    loop.create_task(client.start())
+    await client.start()
 
 
 
@@ -165,8 +167,8 @@ async def on_connect(event: UnknownEvent):
     print(f"Event Type: {event.type}")
     print(f"Event Base64: {event.base64}")
 
-async def output_flusher():
-    while (True):
+async def stdoutFlusher():
+    while True:
         sys.stdout.flush()
         await asyncio.sleep(5)
 
@@ -174,7 +176,8 @@ if __name__ == '__main__':
 
     # loop.run_until_complete(asyncTikTokScraper.init())
     loop.create_task(client.start())
-    loop.create_task(getViewerCount())
+    #loop.create_task(getViewerCount())
     loop.create_task(socketApi.start_local_server(events=events, downloadedPfp=pfpDownloadFinished))
-    loop.create_task(output_flusher())
-    loop.run_forever()#
+    loop.create_task(stdoutFlusher())
+
+    loop.run_forever()

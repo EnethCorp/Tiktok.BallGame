@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Reflection;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,11 +18,14 @@ public class GameManager : MonoBehaviour
 
     [Header("USER")]
     [SerializeField] private GameObject UserPrefab;
-    [SerializeField] private List<User> UserList = new List<User>();
+    [SerializeField] public List<User> UserList = new List<User>();
+    [SerializeField] public List<Winner> WinnerList = new List<Winner>();
 
     [Header("LEADERBOARD")]
     [SerializeField] private TextMeshProUGUI[] LeaderBoardNames = new TextMeshProUGUI[3];
     [SerializeField] private TextMeshProUGUI[] LeaderBoardPoints = new TextMeshProUGUI[3];
+    [SerializeField] private TextMeshProUGUI[] WinnerTexts = new TextMeshProUGUI[2];
+
 
     [Header("DEBUG")]
     [SerializeField] private int TotalPlayersSpawned = 0;
@@ -31,8 +36,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int MininumLikes = 1;
     [SerializeField] private bool testing = false;
 
-    private const float ROUND = 183f;
-
+    [HideInInspector] public bool ResetProfilePictures;
+    private const float ROUND = 180f;
 
     public static GameManager Instance;
 
@@ -42,19 +47,25 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("More than one PlayerManager in Scene.");
         }
+        if (testing)
+        {
+            Time.timeScale = 20f;
+            Debug.LogWarning("Testing in GameManager is activated.");
+        }
         Instance = this;
+        RoundTimer = ROUND;
     }
     void Update()
     {
         RoundTimer -= Time.deltaTime;
         if (RoundTimer <= 0 && !RoundEnded)
         {
-            RoundEnded = true;
-            DataHandler.Instance.EndRound();
-            ForceRemoveUsers();
-            UserList.Clear();
-            RoundTimer = ROUND;
+            ResetRound();
             return;
+        }
+        if (RoundEnded && RoundTimer > 5f)
+        {
+            RoundEnded = false;
         }
 
         if (testing && Time.frameCount % 15 == 0)
@@ -73,6 +84,27 @@ public class GameManager : MonoBehaviour
             UpdateLeaderBoard();
         }
     }
+    /* Methods */
+    private void ResetRound()
+    {
+        Debug.Log("Round has ended - Restarting");
+        if (!testing)
+        {
+            DataHandler.Instance.EndRound();
+        }
+        if (UserList.Count > 0)
+        {
+            AddWinner(UserList[0].Username);
+            PrintWinners();
+            WinnerTexts[0].text = WinnerList[0].Username;
+            WinnerTexts[1].text = WinnerList[0].Wins.ToString();
+        }
+        ResetProfilePictures = true;
+        ForceRemoveUsers();
+        ResetLeaderBoard();
+        RoundTimer = ROUND;
+        RoundEnded = true;
+    }
     public void UpdateLeaderBoard()
     {
         QuickSort(UserList, 0, UserList.Count - 1);
@@ -86,17 +118,25 @@ public class GameManager : MonoBehaviour
             LeaderBoardPoints[i].text = UserList[i].Points.ToString();
         }
     }
+    public void ResetLeaderBoard()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            LeaderBoardNames[i].text = "Username";
+            LeaderBoardPoints[i].text = 0.ToString();
+        }
+    }
     public void SpawnUser(string _Username, int amount)
     {
         User user = null;
 
-        if (!CheckExistence(_Username))
+        if (!CheckPlayerExistence(_Username))
         {
             user = CreateUser(_Username);
         }
         else
         {
-            user = GetPlayer(_Username);
+            user = GetUser(_Username);
         }
 
         TotalPlayersSpawned += amount;
@@ -106,22 +146,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     /* USER */ 
     public User CreateUser(string _Username)
     {
-        if (!CheckExistence(_Username))
+        if (!CheckPlayerExistence(_Username))
         {
             User newUser = Instantiate(UserPrefab, transform.position, transform.rotation).GetComponent<User>();
             newUser.Username = _Username;
 
             UserList.Add(newUser);
-            StartCoroutine(RefreshDatabase());
             return newUser;
         }
 
-        return null;
+        return GetUser(_Username);
     }
-    public User GetPlayer(string _Username)
+    public User GetUser(string _Username)
     {
         foreach (User user in UserList)
         {
@@ -141,7 +182,7 @@ public class GameManager : MonoBehaviour
             loopNumber++;
         }
     }
-    public bool CheckExistence(string _Username)
+    public bool CheckPlayerExistence(string _Username)
     {
         foreach (User user in UserList)
         {
@@ -151,6 +192,11 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+    }
+    private IEnumerator DelaySpawnPlayer(User user)
+    {
+        yield return new WaitForSeconds(SpawnDelay);
+        StartCoroutine(user.SpawnPlayer(PlayerPrefab, PlayerSpawner));
     }
     public static void QuickSort(List<User> list, int start, int end)
     {
@@ -184,9 +230,33 @@ public class GameManager : MonoBehaviour
 
         return i;
     }
+    void RemoveOldUsers()
+    {
+        for (int i = UserList.Count; i > 0; i--)
+        {
+            if (UserList[i].lastSpawnedTime > 60f)
+            {
+                UserList[i].RemoveUser();
+            }
+            if (UserList[i] == null) UserList.Remove(UserList[i]);
+        }
+    }
+    void ForceRemoveUsers()
+    {
+        for (int i = UserList.Count - 1; i >= 0; i--)
+        {
+            Debug.Log(UserList[i].name);
+            if (UserList[i])
+            {
+                UserList[i].RemoveUser();
+            }
+            UserList.Remove(UserList[i]);
+        }
+    }
 
 
-    /* TikTok API */ 
+
+    /* TikTok API */
     public void PassData(ref Dictionary<string, string> Data)
     {
         string _username = Data["user"];
@@ -196,12 +266,12 @@ public class GameManager : MonoBehaviour
         int amount = 0;
 
         User user;
-        if (!CheckExistence(_username))
+        if (!CheckPlayerExistence(_username))
         {
             user = CreateUser(_username);
         } else
         {
-            user = GetPlayer(_username);
+            user = GetUser(_username);
         }
 
         Debug.Log(_event);
@@ -254,43 +324,89 @@ public class GameManager : MonoBehaviour
             StartCoroutine(DelaySpawnPlayer(user));
         }
     }
-    void RemoveOldUsers()
-    {
-        for (int i = UserList.Count; i > 0; i--)
-        {
-            if (Time.time - UserList[i].lastSpawnedTime > 60f && UserList[i].lastSpawnedTime > 5f)
-            {
-                UserList[i].RemoveUser();
-            } 
-            if (UserList[i] == null) UserList.Remove(UserList[i]);
-        }
-    }
-    void ForceRemoveUsers()
-    {
-        for (int i = UserList.Count; i > 0; i--)
-        {
-            if (UserList[i])
-            {
-                UserList[i].RemoveUser();
-            }
-
-            if (UserList[i] == null) UserList.Remove(UserList[i]);
-        }
-    }
     public void SetMinimumLikes(int _MininumLikes)
     {
         MininumLikes = _MininumLikes;
     }
 
-    private IEnumerator DelaySpawnPlayer(User user)
+
+
+    /* Winner */
+    public bool CheckWinnerExistence(string _Username)
     {
-        yield return new WaitForSeconds(SpawnDelay);
-        StartCoroutine(user.SpawnPlayer(PlayerPrefab, PlayerSpawner));
+        foreach (Winner winner in WinnerList)
+        {
+            if (winner.Username == _Username)
+            {
+                return true;
+            }
+        }
+        return false;
     }
-    private IEnumerator RefreshDatabase()
+    public void AddWinner(string _Username)
     {
-        yield return new WaitForSeconds(0.25f);
-        //AssetDatabase.Refresh();
+        if (!CheckWinnerExistence(_Username))
+        {
+            WinnerList.Add(new Winner(_Username));
+        }
+        else
+        {
+            Winner winner = GetWinner(_Username);
+            winner.addWin();
+        }
+
+        QuickSortWinners(WinnerList, 0, WinnerList.Count-1);
+    }
+    public Winner GetWinner(string _Username)
+    {
+        foreach (Winner winner in WinnerList)
+        {
+            if (winner.Username == _Username)
+            {
+                return winner;
+            }
+        }
+        return null;
+    }
+    public static void QuickSortWinners(List<Winner> list, int start, int end)
+    {
+        if (end <= start) return; // base case
+
+        int pivot = PartitionWinners(list, start, end);
+        QuickSortWinners(list, start, pivot - 1);
+        QuickSortWinners(list, pivot + 1, end);
+    }
+    private static int PartitionWinners(List<Winner> list, int start, int end)
+    {
+        Winner temp = null;
+        int pivot = end;
+        int i = start - 1;
+
+        for (int j = start; j < end; j++)
+        {
+            if (list[j].Wins > list[pivot].Wins)
+            {
+                i++;
+                temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
+        }
+        i++;
+        temp = list[i];
+        list[i] = list[end];
+        list[end] = temp;
+
+        return i;
+    }
+    private void PrintWinners()
+    {
+        int loopNumber = 0;
+        foreach (Winner winner in WinnerList)
+        {
+            Debug.Log(loopNumber + ". Winner:" + winner.Username + ", Wins: " + winner.Wins);
+            loopNumber++;
+        }
     }
 }
 
