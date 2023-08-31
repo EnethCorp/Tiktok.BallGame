@@ -11,7 +11,7 @@ import sys
 pfpDownloadingQueue = []
 pfpDownloaded = []
 pfpDownloadFinished = []
-streamerName = "__domix__" # goofee_69 # reddit_officially # meastkill # __domix__
+streamerName = "leevibe02" # goofee_69 # reddit_officially # meastkill # __domix__
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 

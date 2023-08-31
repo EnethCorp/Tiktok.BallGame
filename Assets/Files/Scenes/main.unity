@@ -8087,7 +8087,7 @@ MonoBehaviour:
   - crimidop3
   - da.rc.ey
   MininumLikes: 25
-  testing: 0
+  testing: 1
   ResetProfilePictures: 0
 --- !u!1 &861550169
 GameObject:

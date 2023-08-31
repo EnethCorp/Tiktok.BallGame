@@ -24,7 +24,7 @@ public class User : MonoBehaviour
     }
     public IEnumerator SpawnPlayer(GameObject PlayerPrefab, Transform PlayerSpawner)
     {
-        Texture texture = MaterialCreator.Instance.CreateTexture(this.Username);
+        Texture texture = MaterialCreator.Instance.ImageLoader(this.Username);
         if (texture == null)
         {
             //AssetDatabase.Refresh();

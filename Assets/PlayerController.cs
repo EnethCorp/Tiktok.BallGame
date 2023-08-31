@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
     public IEnumerator SetMaterial()
     {
         Renderer renderer = GetComponent<Renderer>();
-        Texture texture = _MaterialCreator.CreateTexture(this.parent.Username);
+        //Texture texture = _MaterialCreator.CreateTexture(this.parent.Username);
+        Texture texture = _MaterialCreator.ImageLoader(this.parent.Username);
         renderer.material.mainTexture = texture;
 
         yield return null;

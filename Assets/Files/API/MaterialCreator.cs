@@ -22,7 +22,7 @@ public class MaterialCreator : MonoBehaviour
         try
         {
             string folderPath = Application.streamingAssetsPath + "/" + _Username + ".png";
-            Debug.Log(folderPath);
+            //Debug.Log(folderPath);
             Texture2D texture = Resources.Load<Texture2D>(_Username);
             return texture;
         }
@@ -31,5 +31,23 @@ public class MaterialCreator : MonoBehaviour
             Debug.LogError("Texture was not found. " + e);
             return null;
         }
+    }
+
+
+    public Texture2D ImageLoader(string _Username)
+    {
+        //Create an array of file paths from which to choose
+        string folderPath = Application.streamingAssetsPath + "/gyatTest.png";  //Get path of folder
+        Debug.Log(folderPath);
+
+
+        //Converts desired path into byte array
+        byte[] pngBytes = System.IO.File.ReadAllBytes(folderPath);
+
+        //Creates texture and loads byte array data to create image
+        Texture2D tex = new Texture2D(128, 128);
+        tex.LoadImage(pngBytes);
+
+        return tex;
     }
 }

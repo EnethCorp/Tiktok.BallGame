@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool testing = false;
 
     [HideInInspector] public bool ResetProfilePictures;
-    private const float ROUND = 180f;
+    private const float ROUND = 60;
 
     public static GameManager Instance;
 
