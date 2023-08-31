@@ -9,6 +9,9 @@ public class MaterialCreator : MonoBehaviour
 
     public static MaterialCreator Instance;
 
+    public Texture2D imageAsset;
+
+
     private void Start()
     {
         if (Instance)
@@ -37,16 +40,16 @@ public class MaterialCreator : MonoBehaviour
     public Texture2D ImageLoader(string _Username)
     {
         //Create an array of file paths from which to choose
-        string folderPath = Application.streamingAssetsPath + "/gyatTest.png";  //Get path of folder
+        string folderPath = Application.streamingAssetsPath + "/" + _Username + ".png";  //Get path of folder
         Debug.Log(folderPath);
 
 
         //Converts desired path into byte array
-        byte[] pngBytes = System.IO.File.ReadAllBytes(folderPath);
+        byte[] bytes = System.IO.File.ReadAllBytes(folderPath);
 
         //Creates texture and loads byte array data to create image
-        Texture2D tex = new Texture2D(128, 128);
-        tex.LoadImage(pngBytes);
+        Texture2D tex = new Texture2D(2, 2);
+        tex.LoadImage(bytes);
 
         return tex;
     }

@@ -66,7 +66,7 @@ public class ProfilePictureController : MonoBehaviour
         if (GameManager.Instance.UserList.Count < place + 1 || !GameManager.Instance.UserList[place])
             yield break;
 
-        Texture2D texture = MaterialCreator.Instance.CreateTexture(GameManager.Instance.UserList[place].Username);
+        Texture2D texture = MaterialCreator.Instance.ImageLoader(GameManager.Instance.UserList[place].Username);
         if (texture == null)
         {
             yield return new WaitForSeconds(1f);
@@ -74,9 +74,11 @@ public class ProfilePictureController : MonoBehaviour
             yield break;
         }
 
+        Rect rect = new Rect(0, 0, 100, 100);
+
         Sprite sprite = Sprite.Create(
-            texture, 
-            new Rect(Vector2.zero, new Vector2(128f, 128f)),
+            texture,
+            rect,
             new Vector2(0.5f, 0.5f)
         );
 
@@ -87,7 +89,7 @@ public class ProfilePictureController : MonoBehaviour
         if (GameManager.Instance.WinnerList.Count < 1)
             yield break;
 
-        Texture2D texture = MaterialCreator.Instance.CreateTexture(GameManager.Instance.WinnerList[0].Username);
+        Texture2D texture = MaterialCreator.Instance.ImageLoader(GameManager.Instance.WinnerList[0].Username);
         if (texture == null)
         {
             yield return new WaitForSeconds(0.25f);
@@ -95,10 +97,11 @@ public class ProfilePictureController : MonoBehaviour
             yield break;
         }
 
+        Rect rect = new Rect(0, 0, 100, 100);
+
         Sprite sprite = Sprite.Create(
             texture,
-            new Rect(Vector2.zero, 
-            new Vector2(128f, 128f)),
+            rect,
             new Vector2(0.5f, 0.5f)
         );
 

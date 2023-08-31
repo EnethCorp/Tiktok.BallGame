@@ -11,7 +11,8 @@ import sys
 pfpDownloadingQueue = []
 pfpDownloaded = []
 pfpDownloadFinished = []
-streamerName = "leevibe02" # goofee_69 # reddit_officially # meastkill # __domix__
+# https://www.tiktok.com/@zh.xai
+streamerName = "zh.xai" # goofee_69 # reddit_officially # meastkill # __domix__ # zh.xai (always check)
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
@@ -97,7 +98,7 @@ async def on_comment(event: CommentEvent):
     print(f"{event.user.unique_id} -> {event.comment}")
 
     events.append(dict(user=event.user.unique_id, event="comment", comment=event.comment))
-    await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
+    await downloadWrapper(event.user.unique_id, event.user.avatar.urls[2])
     global lastInteractionTime
     lastInteractionTime = time.monotonic()        
 
@@ -112,7 +113,7 @@ async def on_gift(event: GiftEvent):
             print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
 
         events.append(dict( user=event.user.unique_id, event="gift", gift=event.gift.info.name, count=event.gift.count))
-        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
+        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[2])
         global lastInteractionTime
         lastInteractionTime = time.monotonic()
 
@@ -125,7 +126,7 @@ async def on_like(event: LikeEvent):
                     queueEvent["count"] += event.likes
                     return 
         events.append(dict( user=event.user.unique_id, event="like", count=event.likes))
-        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
+        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[2])
         global lastInteractionTime
         lastInteractionTime = time.monotonic()
 
@@ -133,7 +134,7 @@ async def on_like(event: LikeEvent):
 async def on_follow(event: FollowEvent):
         print(f"@{event.user.unique_id} followed the streamer!")
         events.append(dict(user=event.user.unique_id, event="follow"))
-        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
+        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[2])
         global lastInteractionTime
         lastInteractionTime = time.monotonic()
 
@@ -141,7 +142,7 @@ async def on_follow(event: FollowEvent):
 async def on_share(event: ShareEvent):
         print(f"@{event.user.unique_id} shared the stream!")
         events.append(dict(user=event.user.unique_id, event="share"))
-        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
+        await downloadWrapper(event.user.unique_id, event.user.avatar.urls[2])
         global lastInteractionTime
         lastInteractionTime = time.monotonic()
 @client.on("error")
@@ -156,7 +157,7 @@ async def on_connect(error: Exception):
 async def on_join(event: JoinEvent):
     print(f"@{event.user.unique_id} joined the stream!")
     events.append(dict(user=event.user.unique_id, event="join"))
-    await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
+    await downloadWrapper(event.user.unique_id, event.user.avatar.urls[2])
     global lastInteractionTime
     lastInteractionTime = time.monotonic()
 
