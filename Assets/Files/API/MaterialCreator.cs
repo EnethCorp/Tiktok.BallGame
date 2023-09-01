@@ -41,7 +41,7 @@ public class MaterialCreator : MonoBehaviour
     {
         //Create an array of file paths from which to choose
         string folderPath = Application.streamingAssetsPath + "/" + _Username + ".png";  //Get path of folder
-        Debug.Log(folderPath);
+        //Debug.Log(folderPath);
 
 
         //Converts desired path into byte array

@@ -19,6 +19,9 @@ public class DataHandler : MonoBehaviour
     public bool testing = false;
     public bool connected = false;
     bool success = false;
+
+    [SerializeField] private string TestString = "{\"user\": \"enething\", \"event\": \"like\", \"count\": \"15\"}";
+    
     Dictionary<string, string> data;
     GameManager gameManager;
 
@@ -95,7 +98,7 @@ public class DataHandler : MonoBehaviour
     
         string tiktok_event = "event|" + dataString.Split("event\":")[1].Split(",")[0].Replace("\"", "");
         dict.Add(tiktok_event.Split("|")[0], tiktok_event.Split("|")[1].Replace(" ", ""));
-        tiktok_event = tiktok_event.Split("|")[1].Replace(" ", "");
+        tiktok_event = tiktok_event.Split("|")[1].Replace(" ", "").Replace("}","");
  
 
         //Debug.Log(tiktok_event);
@@ -119,12 +122,20 @@ public class DataHandler : MonoBehaviour
             string tiktok_gift = "gift|" + dataString.Split("gift\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "");
             dict.Add(tiktok_gift.Split("|")[0], tiktok_gift.Split("|")[1].Replace(" ", ""));
 
-            string tiktok_count = "count|" + dataString.Split("count\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "");
+            string tiktok_count = "count|1";
+            try
+            {
+                tiktok_count = "count|" + dataString.Split("count\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "").Replace(" ", "");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Gift has no valid count.");
+            }
             dict.Add(tiktok_count.Split("|")[0], tiktok_count.Split("|")[1].Replace(" ", ""));
         }
         else if (tiktok_event == "follow")
         {
-            dict.Add("count", "1");
+            dict.Add("count", "3");
         }
 
 
@@ -133,6 +144,12 @@ public class DataHandler : MonoBehaviour
     }
     void Update()
     {
+        if (testing && Input.GetKeyDown(KeyCode.X))
+        {
+            data = ParseData(TestString);
+            gameManager.PassData(ref data);
+        }
+
         if (connected)
         {
             string response = GetEvent();

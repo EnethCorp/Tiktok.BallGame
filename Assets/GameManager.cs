@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         RoundTimer -= Time.deltaTime;
+
         if (RoundTimer <= 0 && !RoundEnded)
         {
             ResetRound();
@@ -293,6 +294,7 @@ public class GameManager : MonoBehaviour
             user = GetUser(_username);
         }
 
+        _event = _event.Replace("}", "");
         Debug.Log(_event);
 
         if (_event.Contains("join"))
@@ -315,28 +317,38 @@ public class GameManager : MonoBehaviour
         }
         else if (_event == "follow")
         {
-            amount = 5;
+            amount = 5 * int.Parse(Data["count"]);
         }
         else if (_event == "gift")
         {
             string gift = Data["gift"].ToLower();
-            int giftAmount = int.Parse(Data["count"]);
+            int giftAmount = 1;
+            try
+            {
+                giftAmount = int.Parse(Data["count"]);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("No valid count for gift");
+            }
+
+            Debug.Log("Gift: " + gift);
 
             if (gift == "rose")
             {
-                amount = 8 * giftAmount;
+                amount = 10 * giftAmount;
             }
-            else if (gift == "i love you")
+            else if (gift == "iloveyou")
             {
-                amount = 150 * giftAmount;
+                amount = 500 * giftAmount;
             }
             else if (gift == "cap")
             {
-                amount = 1500 * giftAmount;
+                amount = 1000 * giftAmount;
             }
             else if (gift == "hearts")
             {
-                amount = 3000 * giftAmount;
+                amount = 2000 * giftAmount;
             }
         }
 

@@ -718,7 +718,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.1000004, y: -3.75}
+  m_AnchoredPosition: {x: 9.8, y: -3.75}
   m_SizeDelta: {x: 94.5001, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &60876027
@@ -741,7 +741,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: =  5
+  m_text: = 20
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12978,6 +12978,7 @@ MonoBehaviour:
   MininumLikes: 5
   testing: 1
   connected: 0
+  TestString: '{"user": "enething_", "event": "gift", "gift": "cap", "count": "1"}'
 --- !u!1 &1313951597
 GameObject:
   m_ObjectHideFlags: 0
@@ -13778,7 +13779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 162.56874, y: 1.4275}
+  m_AnchoredPosition: {x: 162.56874, y: 48.20762}
   m_SizeDelta: {x: 150.7991, y: 55.7868}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1388955301
@@ -14621,7 +14622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 162.56874, y: 47.927505}
+  m_AnchoredPosition: {x: 162.56874, y: 0.8815918}
   m_SizeDelta: {x: 150.7991, y: 55.7868}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1580641658
