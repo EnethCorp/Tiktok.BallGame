@@ -4743,7 +4743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9981522, g: 0.6933962, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.3915094, b: 0.80844814, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7299,8 +7299,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.2, y: -3.75}
-  m_SizeDelta: {x: 94.5001, y: 50}
+  m_AnchoredPosition: {x: 15.5, y: -3.75}
+  m_SizeDelta: {x: 114.4348, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &800679091
 MonoBehaviour:
@@ -7322,7 +7322,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: = ??
+  m_text: =1500
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12118,6 +12118,7 @@ GameObject:
   - component: {fileID: 1211554838}
   - component: {fileID: 1211554837}
   - component: {fileID: 1211554836}
+  - component: {fileID: 1211554839}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -12203,6 +12204,77 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1211554834}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1211554839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211554834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ba5c287e950af4586bcb666ea05d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 0.6497696, b: 0, a: 1}
+    key2: {r: 0.8745098, g: 1, b: 0, a: 0}
+    key3: {r: 0.06978583, g: 1, b: 0, a: 0}
+    key4: {r: 0, g: 0.8734231, b: 1, a: 0}
+    key5: {r: 0, g: 0.11084986, b: 1, a: 0}
+    key6: {r: 1, g: 0, b: 0.7267132, a: 0}
+    key7: {r: 1, g: 0, b: 0, a: 0}
+    ctime0: 771
+    ctime1: 9059
+    ctime2: 18697
+    ctime3: 26985
+    ctime4: 34117
+    ctime5: 44718
+    ctime6: 55705
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  gradient2:
+    serializedVersion: 2
+    key0: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 0}
+    key3: {r: 0.4846091, g: 0.6132076, b: 0.47726062, a: 0}
+    key4: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 0}
+    key5: {r: 0.030740678, g: 0.16981131, b: 0.02162692, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 578
+    ctime1: 18890
+    ctime2: 37201
+    ctime3: 51464
+    ctime4: 65535
+    ctime5: 65535
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
+  material: {fileID: 2100000, guid: 0ef712b023ca33c4aa5c2d30f86aecf6, type: 2}
 --- !u!1001 &1235493640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12904,7 +12976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 25001
   MininumLikes: 5
-  testing: 0
+  testing: 1
   connected: 0
 --- !u!1 &1313951597
 GameObject:

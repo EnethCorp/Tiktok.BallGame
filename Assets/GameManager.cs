@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool ResetProfilePictures;
     public const float ROUND = 120;
-    public const float MAX_PLAYERS = 400;
+    public const float MAX_PLAYERS = 1000;
 
     public static GameManager Instance;
 
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 3000; i++)
             {
                  SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
             }
@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
 
             if (gift == "rose")
             {
-                amount = 10 * giftAmount;
+                amount = 8 * giftAmount;
             }
             else if (gift == "i love you")
             {
