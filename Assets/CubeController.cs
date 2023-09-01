@@ -27,6 +27,8 @@ public class CubeController : MonoBehaviour
             try
             {
                 PlayerController playerController = collision.transform.GetComponent<PlayerController>();
+               
+                GameManager.Instance.PlayerList.Remove(playerController);
 
                 if (multiply)
                     playerController.AddPoints(playerController.parent.Points * this.Points);

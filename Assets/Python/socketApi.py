@@ -37,7 +37,13 @@ async def handle_msg(reader: asyncio.StreamReader, writer: asyncio.StreamWriter,
 
                         curEvent = events.popleft()
                         if curEvent["user"] in downloadedPfp:
-                            #print(curEvent, type(curEvent))
+                            
+                            if curEvent["event"] == "gift":
+                                print(curEvent)
+                                with open("log.txt", "a") as file:
+                                    file.write(curEvent, "\n")
+                                
+
                             if curEvent["event"] == "like":
                                 if curEvent["count"] >= minLikes:
 

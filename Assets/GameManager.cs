@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("USER")]
     [SerializeField] private GameObject UserPrefab;
     [SerializeField] public List<User> UserList = new List<User>();
+    [SerializeField] public List<PlayerController> PlayerList = new List<PlayerController>();
     [SerializeField] public List<Winner> WinnerList = new List<Winner>();
 
     [Header("LEADERBOARD")]
@@ -35,9 +36,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string[] testUsers = new String[3];
     [SerializeField] private int MininumLikes = 1;
     [SerializeField] private bool testing = false;
+    [SerializeField] public int CurrentPlayers = 0;
 
     [HideInInspector] public bool ResetProfilePictures;
-    private const float ROUND = 60;
+    public const float ROUND = 120;
+    public const float MAX_PLAYERS = 400;
 
     public static GameManager Instance;
 
@@ -72,9 +75,12 @@ public class GameManager : MonoBehaviour
         {
             SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
+            for (int i = 0; i < 1000; i++)
+            {
+                 SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
+            }
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
@@ -83,6 +89,11 @@ public class GameManager : MonoBehaviour
             PrintList();
             UpdateLeaderBoard();
         }
+
+        if (Time.frameCount % 500 == 0)
+        {
+            RemoveEmptyPlayers();
+        }
     }
     /* Methods */
     private void ResetRound()
@@ -90,7 +101,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Round has ended - Restarting");
         if (!testing)
         {
-            DataHandler.Instance.EndRound();
+            //DataHandler.Instance.EndRound();
         }
         if (UserList.Count > 0)
         {
@@ -101,6 +112,7 @@ public class GameManager : MonoBehaviour
         }
         ResetProfilePictures = true;
         ForceRemoveUsers();
+        RemoveEmptyPlayers();
         ResetLeaderBoard();
         RoundTimer = ROUND;
         RoundEnded = true;
@@ -241,6 +253,13 @@ public class GameManager : MonoBehaviour
             if (UserList[i] == null) UserList.Remove(UserList[i]);
         }
     }
+    void RemoveEmptyPlayers()
+    {
+        for (int i = PlayerList.Count-1; i > 0; i--)
+        {
+            if (PlayerList[i] == null) PlayerList.Remove(PlayerList[i]);
+        }
+    }
     void ForceRemoveUsers()
     {
         for (int i = UserList.Count - 1; i >= 0; i--)
@@ -300,20 +319,24 @@ public class GameManager : MonoBehaviour
         }
         else if (_event == "gift")
         {
-            string gift = Data["gift"];
+            string gift = Data["gift"].ToLower();
             int giftAmount = int.Parse(Data["count"]);
 
-            if (gift == "Rose")
+            if (gift == "rose")
             {
                 amount = 10 * giftAmount;
             }
-            else if (gift == "Corgy")
+            else if (gift == "i love you")
             {
-                amount = 1000 * giftAmount;
+                amount = 150 * giftAmount;
             }
-            else if (gift == "Crocodile")
+            else if (gift == "cap")
             {
-                amount = 1000 * giftAmount;
+                amount = 1500 * giftAmount;
+            }
+            else if (gift == "hearts")
+            {
+                amount = 3000 * giftAmount;
             }
         }
 

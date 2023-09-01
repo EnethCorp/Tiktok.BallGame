@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] public User parent;
     [SerializeField] private MaterialCreator _MaterialCreator;
+    public bool destroyed = false;
     private Rigidbody _rb;
  
     void Awake()
@@ -34,11 +35,11 @@ public class PlayerController : MonoBehaviour
         parent.AddPoints(amount);
     }
 
-    public IEnumerator SetMaterial()
+    public IEnumerator SetMaterial(Texture PlayerTexture)
     {
         Renderer renderer = GetComponent<Renderer>();
         //Texture texture = _MaterialCreator.CreateTexture(this.parent.Username);
-        Texture texture = _MaterialCreator.ImageLoader(this.parent.Username);
+        Texture texture = PlayerTexture;
         renderer.material.mainTexture = texture;
 
         yield return null;

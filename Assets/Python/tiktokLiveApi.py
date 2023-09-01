@@ -12,7 +12,7 @@ pfpDownloadingQueue = []
 pfpDownloaded = []
 pfpDownloadFinished = []
 # https://www.tiktok.com/@zh.xai
-streamerName = "zh.xai" # goofee_69 # reddit_officially # meastkill # __domix__ # zh.xai (always check)
+streamerName = "lynwoodgeethang" # goofee_69 # reddit_officially # meastkill # __domix__ # zh.xai (always check)
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
@@ -25,8 +25,11 @@ lastInteractionTime = time.monotonic() # to check if script is still getting dat
     
 client: TikTokLiveClient = TikTokLiveClient(unique_id=f"@{streamerName}", loop=loop)
 
+
 events = deque()
 
+async def printGifts():
+     print(client.available_gifts)
 
 async def downloadWrapper(username: str, url: str):
         if username not in pfpDownloaded:
@@ -90,6 +93,7 @@ async def on_connect(event: LiveEndEvent):
 @client.on("connect")
 async def on_connect(event: ConnectEvent):
         print("Connected to Room ID:", client.room_id)
+        # print(await loop.create_task(client.retrieve_available_gifts()))
         global lastInteractionTime
         lastInteractionTime = time.monotonic()
 
@@ -116,6 +120,9 @@ async def on_gift(event: GiftEvent):
         await downloadWrapper(event.user.unique_id, event.user.avatar.urls[1])
         global lastInteractionTime
         lastInteractionTime = time.monotonic()
+
+        with open("log.txt", "a") as file:
+            file.write(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"\n")
 
 @client.on("like")
 async def on_like(event: LikeEvent):
