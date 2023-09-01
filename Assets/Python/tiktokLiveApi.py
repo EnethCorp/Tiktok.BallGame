@@ -12,7 +12,7 @@ pfpDownloadingQueue = []
 pfpDownloaded = []
 pfpDownloadFinished = []
 # https://www.tiktok.com/@zh.xai
-streamerName = "lynwoodgeethang" # goofee_69 # reddit_officially # meastkill # __domix__ # zh.xai (always check)
+streamerName = "dragon__heart76" # goofee_69 # reddit_officially # meastkill # __domix__ # zh.xai (always check)
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 

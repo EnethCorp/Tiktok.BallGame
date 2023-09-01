@@ -92,14 +92,20 @@ public class DataHandler : MonoBehaviour
         }
         Dictionary<string, string> dict = new Dictionary<string, string>();
         Debug.Log(dataString);
-        string tiktok_user = "user|" + dataString.Split("user\":")[1].Split(",")[0].Replace("\"", "");
-        dict.Add(tiktok_user.Split("|")[0], tiktok_user.Split("|")[1].Replace(" ", ""));
+        dataString = dataString.Replace("\"", "").Replace("\'", "").Replace("{", "").Replace("}", "").Replace(" ", "");
+        Debug.Log(dataString);
+        string tiktok_user = "user|" + dataString.Split("user:")[1].Split(",")[0];
+        dict.Add(tiktok_user.Split("|")[0], tiktok_user.Split("|")[1]);
+
+        Debug.Log(tiktok_user);
 
     
-        string tiktok_event = "event|" + dataString.Split("event\":")[1].Split(",")[0].Replace("\"", "");
-        dict.Add(tiktok_event.Split("|")[0], tiktok_event.Split("|")[1].Replace(" ", ""));
-        tiktok_event = tiktok_event.Split("|")[1].Replace(" ", "").Replace("}","");
- 
+        string tiktok_event = "event|" + dataString.Split("event:")[1].Split(",")[0];
+        Debug.Log(tiktok_event);
+
+        dict.Add(tiktok_event.Split("|")[0], tiktok_event.Split("|")[1]);
+        tiktok_event = tiktok_event.Split("|")[1];
+
 
         //Debug.Log(tiktok_event);
         if (tiktok_event == "join")
@@ -108,30 +114,30 @@ public class DataHandler : MonoBehaviour
         }
         else if (tiktok_event == "like")
         {
-            string tiktok_args = "count|" + dataString.Split("count\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "");
-            dict.Add(tiktok_args.Split("|")[0], tiktok_args.Split("|")[1].Replace(" ", ""));
+            string tiktok_args = "count|" + dataString.Split("count:")[1].Split(",")[0];
+            dict.Add(tiktok_args.Split("|")[0], tiktok_args.Split("|")[1]);
         }
         else if (tiktok_event == "comment")
         {
-            string tiktok_comment = "comment|" + dataString.Split("comment\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "");
-            dict.Add(tiktok_comment.Split("|")[0], tiktok_comment.Split("|")[1].Replace(" ", ""));
-            Debug.Log("This is the comment: \"" + tiktok_comment.Split("|")[1].Replace(" ", "") + "}\"");
+            string tiktok_comment = "comment|" + dataString.Split("comment:")[1].Split(",")[0];
+            dict.Add(tiktok_comment.Split("|")[0], tiktok_comment.Split("|")[1]);
+            Debug.Log("This is the comment: \"" + tiktok_comment.Split("|")[1]);
         }
         else if (tiktok_event == "gift")
         {
-            string tiktok_gift = "gift|" + dataString.Split("gift\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "");
-            dict.Add(tiktok_gift.Split("|")[0], tiktok_gift.Split("|")[1].Replace(" ", ""));
+            string tiktok_gift = "gift|" + dataString.Split("gift:")[1].Split(",")[0];
+            dict.Add(tiktok_gift.Split("|")[0], tiktok_gift.Split("|")[1]);
 
             string tiktok_count = "count|1";
             try
             {
-                tiktok_count = "count|" + dataString.Split("count\":")[1].Split(",")[0].Replace("\"", "").Replace("}", "").Replace(" ", "");
+                tiktok_count = "count|" + dataString.Split("count:")[1].Split(",")[0];
             }
             catch (Exception e)
             {
                 Debug.LogError("Gift has no valid count.");
             }
-            dict.Add(tiktok_count.Split("|")[0], tiktok_count.Split("|")[1].Replace(" ", ""));
+            dict.Add(tiktok_count.Split("|")[0], tiktok_count.Split("|")[1]);
         }
         else if (tiktok_event == "follow")
         {

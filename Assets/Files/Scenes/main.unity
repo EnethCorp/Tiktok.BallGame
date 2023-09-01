@@ -12976,9 +12976,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 25001
   MininumLikes: 5
-  testing: 1
+  testing: 0
   connected: 0
-  TestString: '{"user": "enething_", "event": "gift", "gift": "cap", "count": "1"}'
+  TestString: '{''user'': ''enething_'', ''event'': "follow", ''gift'': ''Rose'',
+    ''count'': 1}'
 --- !u!1 &1313951597
 GameObject:
   m_ObjectHideFlags: 0
