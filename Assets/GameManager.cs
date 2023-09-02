@@ -27,6 +27,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] LeaderBoardPoints = new TextMeshProUGUI[3];
     [SerializeField] private TextMeshProUGUI[] WinnerTexts = new TextMeshProUGUI[2];
 
+    [Header("GIFTS")]
+    [SerializeField] private Transform[] FireWorkSpawnpoints;
+    [SerializeField] private ParticleSystem FireWork_Rose;
+    [SerializeField] private ParticleSystem FireWork_ILoveYou;
+    [SerializeField] private ParticleSystem FireWork_Cap;
+    [SerializeField] private ParticleSystem FireWork_Hearts;
+    [SerializeField] private ParticleSystem FireWork_Coral;
+
 
     [Header("DEBUG")]
     [SerializeField] private int TotalPlayersSpawned = 0;
@@ -40,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool ResetProfilePictures;
     public const float ROUND = 120;
-    public const float MAX_PLAYERS = 1000;
+    public const float MAX_PLAYERS = 650;
 
     public static GameManager Instance;
 
@@ -78,7 +86,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            for (int i = 0; i < 3000; i++)
+            for (int i = 0; i < 500; i++)
             {
                  SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
             }
@@ -321,8 +329,13 @@ public class GameManager : MonoBehaviour
         }
         else if (_event == "gift")
         {
+
             string gift = Data["gift"].ToLower();
             int giftAmount = 1;
+
+            FireWork(_event);
+
+
             try
             {
                 giftAmount = int.Parse(Data["count"]);
@@ -349,6 +362,10 @@ public class GameManager : MonoBehaviour
             else if (gift == "hearts")
             {
                 amount = 2000 * giftAmount;
+            }            
+            else if (gift == "coral")
+            {
+                amount = 5000 * giftAmount;
             }
         }
 
@@ -359,6 +376,31 @@ public class GameManager : MonoBehaviour
             StartCoroutine(DelaySpawnPlayer(user));
         }
     }
+    public void FireWork(string gift)
+    {
+        if (gift == "rose")
+        {
+
+        }
+        else if (gift == "iloveyou")
+        {
+
+        }
+        else if (gift == "cap")
+        {
+
+        }
+        else if (gift == "hearts")
+        {
+
+        }
+        else if (gift == "coral")
+        {
+
+        }
+    }
+
+
     public void SetMinimumLikes(int _MininumLikes)
     {
         MininumLikes = _MininumLikes;
@@ -387,6 +429,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Winner winner = GetWinner(_Username);
+            winner.lastWin = Time.frameCount;
             winner.addWin();
         }
 
@@ -419,7 +462,7 @@ public class GameManager : MonoBehaviour
 
         for (int j = start; j < end; j++)
         {
-            if (list[j].Wins > list[pivot].Wins)
+            if (list[j].lastWin > list[pivot].lastWin)
             {
                 i++;
                 temp = list[i];

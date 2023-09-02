@@ -7,6 +7,7 @@ public class Winner
 {
     public string Username = "";
     public int Wins = 1;
+    public int lastWin = Time.frameCount;
 
     public Winner(string _Username)
     {
