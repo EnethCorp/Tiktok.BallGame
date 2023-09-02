@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class ColorTransition : MonoBehaviour
 {
-    [SerializeField] public Gradient gradient;
+    [SerializeField] public Gradient gradient1;
     [SerializeField] public Gradient gradient2;
     [SerializeField] public Material material;
 
-    void Update()
+    private bool ColorMode = false;
+
+    void Start()
     {
-        if (gradient == null || material == null)
+        if (gradient1 == null || gradient2 == null || material == null)
         {
             Debug.LogError("Gradient or Material is zero on TransitionColor Object.");
             return;
         }
+    }
 
-        material.color = gradient2.Evaluate((Time.time / 45) % 1);
+    void Update()
+    {
+        if (Input.GetKeyDown("1"))
+        {
+            Debug.Log("Switching Color mode");
+            ColorMode = !ColorMode;
+        }
+        Gradient gradient = (!ColorMode) ? gradient1 : gradient2;
+
+        material.color = gradient.Evaluate((Time.time / 45) % 1);
     }
 }

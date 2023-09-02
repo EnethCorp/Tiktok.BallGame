@@ -29,11 +29,10 @@ public class GameManager : MonoBehaviour
 
     [Header("GIFTS")]
     [SerializeField] private Transform[] FireWorkSpawnpoints;
-    [SerializeField] private ParticleSystem FireWork_Rose;
-    [SerializeField] private ParticleSystem FireWork_ILoveYou;
-    [SerializeField] private ParticleSystem FireWork_Cap;
-    [SerializeField] private ParticleSystem FireWork_Hearts;
-    [SerializeField] private ParticleSystem FireWork_Coral;
+    [SerializeField] private GameObject FireWork1;
+    [SerializeField] private GameObject FireWork2;
+    [SerializeField] private GameObject FireWork3;
+    [SerializeField] private GameObject FireWork4;
 
 
     [Header("DEBUG")]
@@ -333,7 +332,7 @@ public class GameManager : MonoBehaviour
             string gift = Data["gift"].ToLower();
             int giftAmount = 1;
 
-            FireWork(_event);
+            FireWork(gift); 
 
 
             try
@@ -378,25 +377,29 @@ public class GameManager : MonoBehaviour
     }
     public void FireWork(string gift)
     {
+        Debug.Log("working " + gift);
         if (gift == "rose")
         {
-
+            Instantiate(FireWork1, FireWorkSpawnpoints[0].position, Quaternion.identity);
         }
         else if (gift == "iloveyou")
         {
-
+            Instantiate(FireWork2, FireWorkSpawnpoints[0].position, Quaternion.identity);
         }
         else if (gift == "cap")
         {
-
+            Instantiate(FireWork3, FireWorkSpawnpoints[0].position, Quaternion.identity);
         }
         else if (gift == "hearts")
         {
-
+            Instantiate(FireWork2, FireWorkSpawnpoints[1].position, Quaternion.identity);
+            Instantiate(FireWork2, FireWorkSpawnpoints[2].position, Quaternion.identity);
         }
         else if (gift == "coral")
         {
-
+            Instantiate(FireWork3, FireWorkSpawnpoints[0].position, Quaternion.identity);
+            Instantiate(FireWork2, FireWorkSpawnpoints[2].position, Quaternion.identity);
+            Instantiate(FireWork3, FireWorkSpawnpoints[2].position, Quaternion.identity);
         }
     }
 
