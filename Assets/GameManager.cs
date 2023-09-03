@@ -332,7 +332,7 @@ public class GameManager : MonoBehaviour
             string gift = Data["gift"].ToLower();
             int giftAmount = 1;
 
-            FireWork(gift); 
+            StartCoroutine(FireWork(gift)); 
 
 
             try
@@ -375,7 +375,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(DelaySpawnPlayer(user));
         }
     }
-    public void FireWork(string gift)
+    public IEnumerator FireWork(string gift)
     {
         Debug.Log("working " + gift);
         if (gift == "rose")
@@ -388,18 +388,29 @@ public class GameManager : MonoBehaviour
         }
         else if (gift == "cap")
         {
-            Instantiate(FireWork3, FireWorkSpawnpoints[0].position, Quaternion.identity);
+            for (int i = 0; i < 2; i++)
+            {
+                Instantiate(FireWork3, FireWorkSpawnpoints[1].position, Quaternion.identity);
+                Instantiate(FireWork3, FireWorkSpawnpoints[2].position, Quaternion.identity);
+                yield return new WaitForSeconds(1f);
+            }
         }
         else if (gift == "hearts")
         {
-            Instantiate(FireWork2, FireWorkSpawnpoints[1].position, Quaternion.identity);
-            Instantiate(FireWork2, FireWorkSpawnpoints[2].position, Quaternion.identity);
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(FireWork2, FireWorkSpawnpoints[1].position, Quaternion.identity);
+                Instantiate(FireWork2, FireWorkSpawnpoints[2].position, Quaternion.identity);
+            }
         }
         else if (gift == "coral")
         {
-            Instantiate(FireWork3, FireWorkSpawnpoints[0].position, Quaternion.identity);
-            Instantiate(FireWork2, FireWorkSpawnpoints[2].position, Quaternion.identity);
-            Instantiate(FireWork3, FireWorkSpawnpoints[2].position, Quaternion.identity);
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(FireWork3, FireWorkSpawnpoints[0].position, Quaternion.identity);
+                Instantiate(FireWork2, FireWorkSpawnpoints[2].position, Quaternion.identity);
+                Instantiate(FireWork3, FireWorkSpawnpoints[2].position, Quaternion.identity);
+            }
         }
     }
 
