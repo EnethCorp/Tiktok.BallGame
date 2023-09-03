@@ -943,37 +943,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8344307643575442776, guid: ec7bc2992c43ca74f9b3bb09a37a0fbc, type: 3}
   m_PrefabInstance: {fileID: 74372698}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &76724629
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 76724630}
-  m_Layer: 0
-  m_Name: FireworkSpawnpoint (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &76724630
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 76724629}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.75, y: 0, z: -0.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 888586065}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &90012823
 GameObject:
   m_ObjectHideFlags: 0
@@ -8246,14 +8215,12 @@ MonoBehaviour:
   WinnerTexts:
   - {fileID: 1875479615}
   - {fileID: 182320475}
-  FireWorkSpawnpoints:
-  - {fileID: 923260211}
-  - {fileID: 1612362132}
-  - {fileID: 76724630}
-  FireWork1: {fileID: 1132036261060192, guid: 8bc8561c5dca47a46960c27725a7ebac, type: 3}
-  FireWork2: {fileID: 1208484534624178, guid: 0bd126c7d2039774592af6a94a2d7410, type: 3}
-  FireWork3: {fileID: 1513864311348878, guid: 028420c6b5f056e42a7d76e5d27e1a7e, type: 3}
-  FireWork4: {fileID: 1317287738034390, guid: 941f65fa207e4b642bcba603ef8b91aa, type: 3}
+  FireWorkSpawnpoints: []
+  FireWork_Rose: {fileID: 0}
+  FireWork_ILoveYou: {fileID: 0}
+  FireWork_Cap: {fileID: 0}
+  FireWork_Hearts: {fileID: 0}
+  FireWork_Coral: {fileID: 0}
   TotalPlayersSpawned: 0
   SpawnDelay: 2
   RoundTimer: 180
@@ -8547,9 +8514,6 @@ Transform:
   - {fileID: 705507995}
   - {fileID: 848500429}
   - {fileID: 1274244557}
-  - {fileID: 923260211}
-  - {fileID: 1612362132}
-  - {fileID: 76724630}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8869,37 +8833,6 @@ Transform:
   - {fileID: 237759896}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &923260210
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 923260211}
-  m_Layer: 0
-  m_Name: FireworkSpawnpoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &923260211
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 923260210}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.75, y: 0, z: -0.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 888586065}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &935445045
 GameObject:
@@ -12289,23 +12222,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ba5c287e950af4586bcb666ea05d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gradient1:
+  gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0.021294117, a: 1}
-    key1: {r: 1, g: 0.5017747, b: 0.14509803, a: 1}
-    key2: {r: 0.9769263, g: 1, b: 0.30980396, a: 0}
-    key3: {r: 0.55758345, g: 1, b: 0.45098042, a: 0}
-    key4: {r: 0.1549929, g: 0.4056604, b: 0.24108651, a: 0}
-    key5: {r: 0, g: 0.6973052, b: 1, a: 0}
-    key6: {r: 0, g: 0.093925, b: 1, a: 0}
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 0.6497696, b: 0, a: 1}
+    key2: {r: 0.8745098, g: 1, b: 0, a: 0}
+    key3: {r: 0.06978583, g: 1, b: 0, a: 0}
+    key4: {r: 0, g: 0.8734231, b: 1, a: 0}
+    key5: {r: 0, g: 0.11084986, b: 1, a: 0}
+    key6: {r: 1, g: 0, b: 0.7267132, a: 0}
     key7: {r: 1, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 9445
-    ctime2: 20239
-    ctime3: 29491
-    ctime4: 38743
-    ctime5: 49344
-    ctime6: 57825
+    ctime0: 771
+    ctime1: 9059
+    ctime2: 18697
+    ctime3: 26985
+    ctime4: 34117
+    ctime5: 44718
+    ctime6: 55705
     ctime7: 65535
     atime0: 0
     atime1: 65535
@@ -13051,8 +12984,8 @@ MonoBehaviour:
   MininumLikes: 5
   testing: 0
   connected: 0
-  TestString: '{''user'': ''enething_'', ''event'': "gift", ''gift'': ''rose'', ''count'':
-    1}'
+  TestString: '{''user'': ''enething_'', ''event'': "follow", ''gift'': ''Rose'',
+    ''count'': 1}'
 --- !u!1 &1313951597
 GameObject:
   m_ObjectHideFlags: 0
@@ -15166,37 +15099,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8344307643575442776, guid: ec7bc2992c43ca74f9b3bb09a37a0fbc, type: 3}
   m_PrefabInstance: {fileID: 1601717187}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1612362131
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1612362132}
-  m_Layer: 0
-  m_Name: FireworkSpawnpoint (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1612362132
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612362131}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.5, y: 0, z: -0.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 888586065}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1618249125
 GameObject:
   m_ObjectHideFlags: 0
