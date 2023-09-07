@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: EnethCorp
+  companyName: DefaultCompany
   productName: Tiktok.BallGame
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}

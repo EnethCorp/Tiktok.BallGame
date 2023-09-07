@@ -9,6 +9,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using KeyAuth;
 
 public class GameManager : MonoBehaviour
 {
@@ -53,6 +54,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        //StartCoroutine(KeyAuth.User.AsyncCheck("KEYAUTH-admin"));
+        //KeyAuth.User.Check();
+
         if (Instance)
         {
             Debug.LogError("More than one PlayerManager in Scene.");
@@ -79,24 +83,24 @@ public class GameManager : MonoBehaviour
             RoundEnded = false;
         }
 
-        if (testing && Time.frameCount % 15 == 0)
-        {
-            SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            for (int i = 0; i < 500; i++)
-            {
-                 SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            RemoveOldUsers();
-            QuickSort(UserList, 0, UserList.Count - 1);
-            PrintList();
-            UpdateLeaderBoard();
-        }
+        //if (testing && Time.frameCount % 15 == 0)
+        //{
+        //    SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    for (int i = 0; i < 500; i++)
+        //    {
+        //         SpawnUser(testUsers[Random.Range(0, testUsers.Length)], 1);
+        //    }
+        //}
+        //else if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    RemoveOldUsers();
+        //    QuickSort(UserList, 0, UserList.Count - 1);
+        //    PrintList();
+        //    UpdateLeaderBoard();
+        //}
 
         if (Time.frameCount % 500 == 0)
         {
@@ -476,7 +480,7 @@ public class GameManager : MonoBehaviour
 
         for (int j = start; j < end; j++)
         {
-            if (list[j].lastWin > list[pivot].lastWin)
+            if (list[j].Wins > list[pivot].Wins)
             {
                 i++;
                 temp = list[i];
