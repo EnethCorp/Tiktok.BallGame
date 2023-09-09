@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         //StartCoroutine(KeyAuth.User.AsyncCheck("KEYAUTH-admin"));
-        //KeyAuth.User.Check();
+        KeyAuth.User.Check();
 
         if (Instance)
         {
