@@ -9,7 +9,7 @@ using UnityEngine;
 public class DataHandler : MonoBehaviour
 {
     [Header("LISTENER")]
-    Socket socket;
+    static Socket socket;
     public int port = 25001;
     System.Net.IPAddress adress = System.Net.IPAddress.Parse("127.0.0.1");
 
@@ -17,7 +17,7 @@ public class DataHandler : MonoBehaviour
     [SerializeField] private int MininumLikes = 25;
 
     public bool testing = false;
-    public bool connected = false;
+    static public bool connected = false;
     bool success = false;
 
     [SerializeField] private string TestString = "{\"user\": \"enething\", \"event\": \"like\", \"count\": \"15\"}";
@@ -29,7 +29,12 @@ public class DataHandler : MonoBehaviour
 
 
     public IEnumerator setupSocket()
-    {                     
+    {
+        if (socket != null)
+        {
+            yield break;
+        }
+
         try
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -42,6 +47,7 @@ public class DataHandler : MonoBehaviour
 
             socket.Send(messageBytes, SocketFlags.None);
             Debug.Log($"Socket client sent message: \"{message}\"");
+            EndRound();
             success = true;
         }
         catch (Exception e)
@@ -52,7 +58,6 @@ public class DataHandler : MonoBehaviour
         if (success)
         {
             yield return new WaitForSeconds(3f);
-            EndRound();
             connected = true;
         }
 
@@ -67,14 +72,6 @@ public class DataHandler : MonoBehaviour
 
     void Start()
     {
-        if (Instance)
-        {
-            Debug.LogError("More than one DataHandler in Scene.");
-        }
-        if (testing)
-        {
-            Debug.LogWarning("Testing in TikTokApi is activated.");
-        }
         Instance = this;
         gameManager = GameManager.Instance;
         gameManager.SetMinimumLikes(MininumLikes);
@@ -194,7 +191,6 @@ public class DataHandler : MonoBehaviour
     {
         var message = "endRound";
         var messageBytes = Encoding.UTF8.GetBytes(message);
-
         socket.Send(messageBytes, SocketFlags.None);
     }
 

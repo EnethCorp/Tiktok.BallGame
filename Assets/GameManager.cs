@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using KeyAuth;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject UserPrefab;
     [SerializeField] public List<User> UserList = new List<User>();
     [SerializeField] public List<PlayerController> PlayerList = new List<PlayerController>();
-    [SerializeField] public List<Winner> WinnerList = new List<Winner>();
+    [SerializeField] public static List<Winner> WinnerList = new List<Winner>();
 
     [Header("LEADERBOARD")]
     [SerializeField] private TextMeshProUGUI[] LeaderBoardNames = new TextMeshProUGUI[3];
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     [Header("DEBUG")]
     [SerializeField] private int TotalPlayersSpawned = 0;
     [SerializeField] private float SpawnDelay = 2f;
-    [SerializeField] public float RoundTimer = ROUND;
+    [SerializeField, Range(0f, 600f)] public float RoundTimer = ROUND_TIMER;
     [SerializeField] public bool RoundEnded = false;
     [SerializeField] private string[] testUsers = new String[3];
     [SerializeField] private int MininumLikes = 1;
@@ -47,15 +48,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int CurrentPlayers = 0;
 
     [HideInInspector] public bool ResetProfilePictures;
-    public const float ROUND = 120;
     public const float MAX_PLAYERS = 650;
+    public const float ROUND_TIMER = 120.9f;
 
     public static GameManager Instance;
 
     private void Awake()
     {
         //StartCoroutine(KeyAuth.User.AsyncCheck("KEYAUTH-admin"));
-        KeyAuth.User.Check();
+        //KeyAuth.User.Check();
 
         if (Instance)
         {
@@ -67,7 +68,12 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Testing in GameManager is activated.");
         }
         Instance = this;
-        RoundTimer = ROUND;
+
+        RoundTimer = ROUND_TIMER;
+
+        if (WinnerList.Count > 30) {
+            WinnerList.Remove(WinnerList[29]);
+        }
     }
     void Update()
     {
@@ -111,23 +117,24 @@ public class GameManager : MonoBehaviour
     private void ResetRound()
     {
         Debug.Log("Round has ended - Restarting");
-        if (!testing)
-        {
-            //DataHandler.Instance.EndRound();
-        }
         if (UserList.Count > 0)
         {
             AddWinner(UserList[0].Username);
             PrintWinners();
+            Debug.Log(WinnerList[0].Username);
             WinnerTexts[0].text = WinnerList[0].Username;
             WinnerTexts[1].text = WinnerList[0].Wins.ToString();
         }
-        ResetProfilePictures = true;
-        ForceRemoveUsers();
-        RemoveEmptyPlayers();
-        ResetLeaderBoard();
-        RoundTimer = ROUND;
-        RoundEnded = true;
+        //DataHandler.Instance.EndRound();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        return;
+
+        //ResetProfilePictures = true;
+        //ForceRemoveUsers();
+        //RemoveEmptyPlayers();
+        //ResetLeaderBoard();
+        //RoundTimer = ROUND;
+        //RoundEnded = true;
     }
     public void UpdateLeaderBoard()
     {
@@ -343,7 +350,7 @@ public class GameManager : MonoBehaviour
             {
                 giftAmount = int.Parse(Data["count"]);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debug.LogError("No valid count for gift");
             }

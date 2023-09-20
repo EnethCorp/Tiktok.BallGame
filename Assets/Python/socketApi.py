@@ -22,7 +22,8 @@ async def handle_msg(reader: asyncio.StreamReader, writer: asyncio.StreamWriter,
             minLikes = int(msg.split(" ")[1])
             print(f"set min likes to {msg.split(' ')[1]}")
 
-        elif msg == "endRound":
+        elif "endRound" in msg:
+            print(f"reset round")
             events.clear()
 
         elif msg == "getEvent":

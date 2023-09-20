@@ -6,14 +6,16 @@ using UnityEngine;
 public class TimerController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timer;
+    [SerializeField] private GameManager gameManager;
     void Start()
     {
-        timer = GetComponent<TextMeshProUGUI>(); 
+        timer = GetComponent<TextMeshProUGUI>();
+        gameManager = GameManager.Instance;
     }
     void Update()
     {
-        string minute = Mathf.FloorToInt(GameManager.Instance.RoundTimer / 60).ToString();
-        string seconds = (GameManager.Instance.RoundTimer % 60 < 10) ? "0" + Mathf.FloorToInt(GameManager.Instance.RoundTimer % 60).ToString(): Mathf.FloorToInt(GameManager.Instance.RoundTimer % 60).ToString();
+        string minute = Mathf.FloorToInt(Mathf.Clamp((gameManager.RoundTimer / 60), 0f, Mathf.Infinity)).ToString();
+        string seconds = (gameManager.RoundTimer % 60 < 10) ? "0" + Mathf.FloorToInt(Mathf.Clamp((gameManager.RoundTimer % 60), 0f, Mathf.Infinity)).ToString(): Mathf.FloorToInt(Mathf.Clamp((gameManager.RoundTimer % 60), 0f, Mathf.Infinity)).ToString();
         timer.text = minute + ":" + seconds;
     }
 }

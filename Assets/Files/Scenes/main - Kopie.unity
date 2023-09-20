@@ -8535,7 +8535,7 @@ MonoBehaviour:
   - {fileID: 759338644}
   WinnerTexts:
   - {fileID: 1875479615}
-  - {fileID: 295712622}
+  - {fileID: 182320475}
   FireWorkSpawnpoints:
   - {fileID: 923260211}
   - {fileID: 1612362132}
@@ -8546,7 +8546,7 @@ MonoBehaviour:
   FireWork4: {fileID: 1317287738034390, guid: 941f65fa207e4b642bcba603ef8b91aa, type: 3}
   TotalPlayersSpawned: 0
   SpawnDelay: 1
-  RoundTimer: 10
+  RoundTimer: 180
   RoundEnded: 0
   testUsers:
   - enething_
@@ -13552,6 +13552,7 @@ MonoBehaviour:
   port: 25001
   MininumLikes: 5
   testing: 0
+  connected: 0
   TestString: '{''user'': ''enething_'', ''event'': "gift", ''gift'': ''rose'', ''count'':
     1}'
 --- !u!1 &1313951597

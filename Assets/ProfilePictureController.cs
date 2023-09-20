@@ -86,10 +86,10 @@ public class ProfilePictureController : MonoBehaviour
     }
     private IEnumerator CorrectWinnerPicture()
     {
-        if (GameManager.Instance.WinnerList.Count < 1)
+        if (GameManager.WinnerList.Count < 1)
             yield break;
 
-        Texture2D texture = MaterialCreator.Instance.ImageLoader(GameManager.Instance.WinnerList[0].Username);
+        Texture2D texture = MaterialCreator.Instance.ImageLoader(GameManager.WinnerList[0].Username);
         if (texture == null)
         {
             yield return new WaitForSeconds(0.25f);
